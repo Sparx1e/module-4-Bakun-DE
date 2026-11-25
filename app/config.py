@@ -9,8 +9,6 @@ from datetime import date
 from pathlib import Path
 
 if getattr(sys, "frozen", False):
-    # В собранном PyInstaller-файле ресурсы распакованы во временную папку,
-    # а файл .env следует искать рядом с исполняемым файлом.
     BASE_DIR = Path(getattr(sys, "_MEIPASS", Path(sys.executable).parent))
     APP_DIR = Path(sys.executable).parent
 else:
@@ -26,8 +24,6 @@ PLACEHOLDER_PATH = IMAGES_DIR / "picture.png"
 APP_NAME = "ФормаДесерт"
 APP_TITLE = "ФормаДесерт — магазин кондитерских принадлежностей"
 
-# Проверочная дата из технического задания. От неё отсчитывается
-# предыдущий календарный месяц для расчёта скидки 25 %.
 DISCOUNT_REFERENCE_DATE = date(2026, 10, 20)
 DISCOUNT_PERCENT = 25
 
@@ -65,7 +61,7 @@ class DbSettings:
             port=int(os.getenv("PGPORT", "5432")),
             dbname=os.getenv("PGDATABASE", "formadessert"),
             user=os.getenv("PGUSER", "postgres"),
-            password=os.getenv("PGPASSWORD", ""),
+            password=os.getenv("PGPASSWORD", "123"),
         )
 
     def describe(self) -> str:
