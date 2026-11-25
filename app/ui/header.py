@@ -1,14 +1,9 @@
-"""Верхняя строка приложения с логотипом, заголовком и сведениями о пользователе."""
-
 from __future__ import annotations
-
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QPixmap
 from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QPushButton
-
 from app.config import LOGO_PATH
 from app.models.entities import User
-
 
 class HeaderBar(QFrame):
     """Единая шапка: логотип слева, заголовок страницы, ФИО и действие справа."""

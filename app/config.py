@@ -1,7 +1,4 @@
-"""Конфигурация приложения «ФормаДесерт»."""
-
 from __future__ import annotations
-
 import os
 import sys
 from dataclasses import dataclass
@@ -29,7 +26,6 @@ DISCOUNT_PERCENT = 25
 
 
 def _load_dotenv() -> None:
-    """Загружает простой файл .env рядом с проектом, не переопределяя среду."""
     env_path = APP_DIR / ".env"
     if not env_path.exists():
         return

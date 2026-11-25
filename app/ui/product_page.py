@@ -1,7 +1,4 @@
-"""Страница просмотра модели товара и добавления позиции в заказ."""
-
 from __future__ import annotations
-
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
     QComboBox,
@@ -14,7 +11,6 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
-
 from app.models.entities import CatalogProduct, User, VariantStock
 from app.ui.formatting import format_money
 from app.ui.images import load_product_pixmap
@@ -25,7 +21,7 @@ class ProductPage(QWidget):
     """Данные выбранной модели, выбор варианта и количества."""
 
     back_requested = Signal()
-    add_requested = Signal(int, int, int)  # product_id, stock_item_id, quantity
+    add_requested = Signal(int, int, int)
     login_requested = Signal()
 
     def __init__(self) -> None:
@@ -39,7 +35,7 @@ class ProductPage(QWidget):
         layout.setSpacing(12)
 
         top = QHBoxLayout()
-        back_button = QPushButton("← Назад в каталог")
+        back_button = QPushButton("<-- Назад в каталог")
         back_button.setObjectName("secondaryButton")
         back_button.setCursor(Qt.CursorShape.PointingHandCursor)
         back_button.clicked.connect(self.back_requested.emit)

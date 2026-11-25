@@ -1,12 +1,7 @@
-"""Загрузка изображений товаров с подстановкой заглушки."""
-
 from __future__ import annotations
-
 from pathlib import Path
-
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap
-
 from app.config import IMAGES_DIR, PLACEHOLDER_PATH
 
 

@@ -1,5 +1,3 @@
-"""Единое оформление приложения по руководству по стилю."""
-
 from __future__ import annotations
 
 PRIMARY = "#70B2AF"

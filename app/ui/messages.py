@@ -1,9 +1,5 @@
-"""Единые диалоговые сообщения с заголовками и пиктограммами."""
-
 from __future__ import annotations
-
 from PySide6.QtWidgets import QMessageBox, QWidget
-
 
 def _show(parent: QWidget | None, icon: QMessageBox.Icon, title: str, text: str) -> None:
     box = QMessageBox(parent)

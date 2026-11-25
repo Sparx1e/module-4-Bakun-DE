@@ -1,7 +1,4 @@
-"""Страница входа по логину без пароля."""
-
 from __future__ import annotations
-
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
     QFrame,
@@ -12,10 +9,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
-
 from app.ui.messages import show_warning
-
-
 class LoginPage(QWidget):
     """Вход в систему: только логин из списка пользователей."""
 

@@ -1,7 +1,4 @@
-"""Форма создания нового заказа менеджером или администратором."""
-
 from __future__ import annotations
-
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
     QAbstractItemView,
@@ -21,7 +18,6 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
-
 from app.errors import AppError
 from app.models.entities import CatalogProduct, User, VariantStock
 from app.services.order_service import Cart
@@ -32,7 +28,7 @@ from app.ui.messages import ask_confirmation, show_warning
 class OrderFormPage(QWidget):
     """Выбор клиента, товаров из каталога и подтверждение нового заказа."""
 
-    confirm_requested = Signal(int, object)  # client_id, Cart
+    confirm_requested = Signal(int, object)
     cancel_requested = Signal()
 
     def __init__(self) -> None:

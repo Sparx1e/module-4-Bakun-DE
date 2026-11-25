@@ -1,13 +1,8 @@
-"""Точка входа приложения «ФормаДесерт»."""
-
 from __future__ import annotations
-
 import sys
 import traceback
-
 from PySide6.QtGui import QFont, QIcon
 from PySide6.QtWidgets import QApplication, QMessageBox
-
 from app.config import APP_NAME, ICON_PATH
 from app.db.connection import Database
 from app.config import DbSettings

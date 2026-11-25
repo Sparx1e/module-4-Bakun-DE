@@ -1,9 +1,5 @@
-"""Редактирование заказа администратором: дата и удаление позиций."""
-
 from __future__ import annotations
-
 from decimal import Decimal
-
 from PySide6.QtCore import QDateTime, Qt, Signal
 from PySide6.QtWidgets import (
     QAbstractItemView,
@@ -27,7 +23,7 @@ from app.ui.messages import ask_confirmation, show_warning
 class OrderEditPage(QWidget):
     """Форма администратора: изменить дату и удалить отдельные позиции."""
 
-    save_requested = Signal(int, object, object)  # order_id, datetime, list[int]
+    save_requested = Signal(int, object, object)
     cancel_requested = Signal()
 
     def __init__(self) -> None:
@@ -41,7 +37,7 @@ class OrderEditPage(QWidget):
         layout.setSpacing(10)
 
         top = QHBoxLayout()
-        cancel_top = QPushButton("← Назад к заказам")
+        cancel_top = QPushButton("<--Назад к заказам")
         cancel_top.setObjectName("secondaryButton")
         cancel_top.clicked.connect(self._cancel)
         top.addWidget(cancel_top)

@@ -1,7 +1,4 @@
-"""Страница корзины клиента перед подтверждением заказа."""
-
 from __future__ import annotations
-
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
     QAbstractItemView,
@@ -15,7 +12,6 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
-
 from app.services.order_service import Cart
 from app.ui.formatting import format_money, format_quantity
 from app.ui.messages import ask_confirmation, show_warning
@@ -26,8 +22,8 @@ class CartPage(QWidget):
 
     back_requested = Signal()
     confirm_requested = Signal()
-    quantity_changed = Signal(int, int)  # stock_item_id, quantity
-    remove_requested = Signal(int)  # stock_item_id
+    quantity_changed = Signal(int, int)
+    remove_requested = Signal(int)
 
     def __init__(self) -> None:
         super().__init__()
@@ -39,7 +35,7 @@ class CartPage(QWidget):
         layout.setSpacing(12)
 
         top = QHBoxLayout()
-        back_button = QPushButton("← Назад в каталог")
+        back_button = QPushButton("<-- Назад в каталог")
         back_button.setObjectName("secondaryButton")
         back_button.setCursor(Qt.CursorShape.PointingHandCursor)
         back_button.clicked.connect(self.back_requested.emit)

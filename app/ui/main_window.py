@@ -1,10 +1,6 @@
-"""Главное окно и последовательная навигация между страницами."""
-
 from __future__ import annotations
-
 from PySide6.QtGui import QCloseEvent, QIcon
 from PySide6.QtWidgets import QMainWindow, QStackedWidget, QVBoxLayout, QWidget
-
 from app.config import APP_NAME, ICON_PATH
 from app.db.auth_repository import AuthRepository
 from app.db.catalog_repository import CatalogRepository
@@ -130,7 +126,6 @@ class MainWindow(QMainWindow):
         self._order_edit_page.save_requested.connect(self._save_order_edit)
         self._order_edit_page.cancel_requested.connect(self._back)
 
-    # ---------- Навигация ----------
 
     def _show_page(self, key: str, push: bool = True) -> None:
         if push and self._current_page is not None and self._current_page != key:
@@ -165,7 +160,6 @@ class MainWindow(QMainWindow):
         self._login_page.reset()
         self._show_page("login", push=False)
 
-    # ---------- Сессия ----------
 
     def _login(self, login: str) -> None:
         try:
@@ -210,7 +204,6 @@ class MainWindow(QMainWindow):
             return
         self._show_login()
 
-    # ---------- Каталог ----------
 
     def _reload_catalog(self) -> None:
         try:
@@ -239,7 +232,6 @@ class MainWindow(QMainWindow):
         self._product_page.load_product(product, self._user)
         self._show_page("product")
 
-    # ---------- Корзина клиента ----------
 
     def _add_to_cart(self, product_id: int, stock_item_id: int, quantity: int) -> None:
         if self._user is None or not self._user.is_client:
@@ -351,7 +343,6 @@ class MainWindow(QMainWindow):
     def _format_total(self) -> str:
         return format_money(self._cart.total)
 
-    # ---------- Заказы сотрудников ----------
 
     def _require_staff(self) -> bool:
         if self._user is None or not self._user.is_staff:
@@ -510,13 +501,10 @@ class MainWindow(QMainWindow):
             return
         assert self._user is not None
         self._order_detail_page.load_order(order, self._user)
-        # После сохранения форма редактирования больше не нужна в истории:
-        # возврат с состава заказа должен вести сразу к списку заказов.
         if self._history and self._history[-1] == "order_detail":
             self._history.pop()
         self._show_page("order_detail", push=False)
 
-    # ---------- Ошибки ----------
 
     def _report_error(self, exc: Exception) -> None:
         if isinstance(exc, AppError):

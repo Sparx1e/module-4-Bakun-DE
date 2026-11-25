@@ -1,7 +1,4 @@
-"""Список заказов для менеджера и администратора."""
-
 from __future__ import annotations
-
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
     QAbstractItemView,
@@ -14,11 +11,9 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
-
 from app.models.entities import OrderSummary, User
 from app.ui.formatting import format_date_time, format_money
 from app.ui.messages import ask_confirmation, show_warning
-
 
 class OrdersPage(QWidget):
     """Общий список заказов с доступом по ролям."""
@@ -40,7 +35,7 @@ class OrdersPage(QWidget):
         layout.setSpacing(12)
 
         top = QHBoxLayout()
-        back_button = QPushButton("← Назад в каталог")
+        back_button = QPushButton("<-- Назад в каталог")
         back_button.setObjectName("secondaryButton")
         back_button.setCursor(Qt.CursorShape.PointingHandCursor)
         back_button.clicked.connect(self.back_requested.emit)

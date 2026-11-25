@@ -1,11 +1,7 @@
-"""Повторно используемые элементы интерфейса."""
-
 from __future__ import annotations
-
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QMouseEvent
 from PySide6.QtWidgets import QFrame, QHBoxLayout, QLabel, QVBoxLayout, QWidget
-
 from app.models.entities import CatalogProduct
 from app.ui.formatting import format_money, format_quantity
 from app.ui.images import load_product_pixmap

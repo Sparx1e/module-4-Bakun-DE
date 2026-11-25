@@ -1,7 +1,4 @@
-"""Главная страница каталога моделей товаров."""
-
 from __future__ import annotations
-
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import (
     QComboBox,
@@ -13,7 +10,6 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
-
 from app.models.entities import CatalogProduct, User
 from app.services.catalog_service import (
     ALL_CATEGORIES,
@@ -151,10 +147,9 @@ class CatalogPage(QWidget):
     def _render_rows(self, products: list[CatalogProduct]) -> None:
         while self._rows_layout.count():
             item = self._rows_layout.takeAt(0)
+            assert item is not None
             widget = item.widget()
             if widget is not None:
-                # Убираем строку из контейнера сразу, иначе при быстрой
-                # перерисовке старые строки остаются видимыми до deleteLater().
                 widget.setParent(None)
                 widget.deleteLater()
 
