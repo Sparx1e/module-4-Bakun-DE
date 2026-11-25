@@ -9,10 +9,13 @@ from datetime import date
 from pathlib import Path
 
 if getattr(sys, "frozen", False):
-    # В собранном PyInstaller-файле ресурсы распакованы во временную папку.
+    # В собранном PyInstaller-файле ресурсы распакованы во временную папку,
+    # а файл .env следует искать рядом с исполняемым файлом.
     BASE_DIR = Path(getattr(sys, "_MEIPASS", Path(sys.executable).parent))
+    APP_DIR = Path(sys.executable).parent
 else:
     BASE_DIR = Path(__file__).resolve().parent.parent
+    APP_DIR = BASE_DIR
 
 RESOURCES_DIR = BASE_DIR / "resources"
 IMAGES_DIR = RESOURCES_DIR / "images"
@@ -31,7 +34,7 @@ DISCOUNT_PERCENT = 25
 
 def _load_dotenv() -> None:
     """Загружает простой файл .env рядом с проектом, не переопределяя среду."""
-    env_path = BASE_DIR / ".env"
+    env_path = APP_DIR / ".env"
     if not env_path.exists():
         return
     for raw_line in env_path.read_text(encoding="utf-8").splitlines():

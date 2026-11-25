@@ -15,4 +15,9 @@ python -m PyInstaller `
     --paths . `
     "main.py"
 
+if ($LASTEXITCODE -ne 0) {
+    throw "PyInstaller завершился с ошибкой. Проверьте журнал сборки."
+}
+
 Write-Host "Готово: dist\FormaDessert\FormaDessert.exe"
+exit 0

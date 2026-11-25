@@ -90,6 +90,11 @@ class OrderFormPage(QWidget):
         self._product_list.currentItemChanged.connect(self._on_product_changed)
         selection_layout.addWidget(self._product_list)
 
+        self._product_details_label = QLabel()
+        self._product_details_label.setObjectName("mutedLabel")
+        self._product_details_label.setWordWrap(True)
+        selection_layout.addWidget(self._product_details_label)
+
         variant_row = QHBoxLayout()
         variant_row.setSpacing(10)
 
@@ -224,6 +229,7 @@ class OrderFormPage(QWidget):
             self._current_product = None
             self._variant_combo.clear()
             self._add_button.setEnabled(False)
+            self._product_details_label.setText("")
             self._availability_label.setText(
                 "Товар не найден. Измените поисковый запрос."
             )
@@ -232,6 +238,7 @@ class OrderFormPage(QWidget):
         item = self._product_list.currentItem()
         if item is None:
             self._current_product = None
+            self._product_details_label.setText("")
             return
         product_id = item.data(Qt.ItemDataRole.UserRole)
         self._current_product = next(
@@ -239,7 +246,19 @@ class OrderFormPage(QWidget):
             None,
         )
         if self._current_product is None:
+            self._product_details_label.setText("")
             return
+
+        product = self._current_product
+        description = product.description
+        if len(description) > 220:
+            description = description[:217].rstrip() + "…"
+        self._product_details_label.setText(
+            f"Категория: {product.category} · {product.subcategory}\n"
+            f"Состав: {product.material}\n"
+            f"Цена: {format_money(product.final_price)}\n"
+            f"Описание: {description}"
+        )
 
         self._current_variants = [
             variant for variant in self._current_product.variants if variant.quantity > 0
