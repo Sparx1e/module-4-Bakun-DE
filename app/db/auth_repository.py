@@ -1,7 +1,4 @@
-"""Доступ к пользователям и ролям."""
-
 from __future__ import annotations
-
 from app.db.connection import Database
 from app.models.entities import User
 
@@ -43,13 +40,13 @@ class AuthRepository:
         with self._database.cursor() as cursor:
             cursor.execute(_FIND_USER_SQL, (login,))
             row = cursor.fetchone()
-        return self._to_user(row) if row else None
+        return self._to_user(row) if row else None # type: ignore
 
     def list_clients(self) -> list[User]:
         with self._database.cursor() as cursor:
             cursor.execute(_LIST_CLIENTS_SQL)
             rows = cursor.fetchall()
-        return [self._to_user(row) for row in rows]
+        return [self._to_user(row) for row in rows] # type: ignore
 
     @staticmethod
     def _to_user(row: dict) -> User:

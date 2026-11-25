@@ -1,11 +1,7 @@
-"""Бизнес-логика каталога: скидка, поиск, фильтрация и сортировка."""
-
 from __future__ import annotations
-
 from dataclasses import replace
 from datetime import date
 from decimal import ROUND_HALF_UP, Decimal
-
 from app.config import DISCOUNT_PERCENT, DISCOUNT_REFERENCE_DATE
 from app.db.catalog_repository import CatalogRepository
 from app.models.entities import CatalogProduct

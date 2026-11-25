@@ -1,15 +1,9 @@
-"""Бизнес-логика формирования и сохранения заказов."""
-
 from __future__ import annotations
-
 from datetime import datetime
 from decimal import ROUND_HALF_UP, Decimal
-
 from app.db.order_repository import OrderRepository
 from app.errors import NotFoundError, StockError, ValidationError
 from app.models.entities import CartItem, CatalogProduct, OrderDetail, OrderSummary, VariantStock
-
-
 class Cart:
     """Корзина текущего заказа с проверкой доступного количества."""
 

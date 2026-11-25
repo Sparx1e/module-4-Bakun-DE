@@ -1,16 +1,10 @@
-"""Чтение каталога товаров из PostgreSQL."""
-
 from __future__ import annotations
-
 from collections import defaultdict
 from datetime import date
 from decimal import Decimal
-
 from app.db.connection import Database
 from app.models.entities import CatalogProduct, VariantStock
 
-# Для каждой модели считаем суммарный остаток и проверяем, были ли заказы
-# в предыдущем календарном месяце относительно переданной даты расчёта.
 _CATALOG_SQL = """
 SELECT p.product_id,
        p.article,
@@ -77,12 +71,12 @@ class CatalogRepository:
 
         variants_by_product: dict[int, list[VariantStock]] = defaultdict(list)
         for row in variant_rows:
-            variants_by_product[row["product_id"]].append(
+            variants_by_product[row["product_id"]].append( # type: ignore
                 VariantStock(
-                    stock_item_id=row["stock_item_id"],
-                    variant_id=row["variant_id"],
-                    variant_name=row["variant_name"],
-                    quantity=row["quantity"],
+                    stock_item_id=row["stock_item_id"], # type: ignore
+                    variant_id=row["variant_id"], # type: ignore
+                    variant_name=row["variant_name"], # type: ignore
+                    quantity=row["quantity"],  # type: ignore
                 )
             )
 
@@ -90,19 +84,19 @@ class CatalogRepository:
         for row in product_rows:
             products.append(
                 CatalogProduct(
-                    product_id=row["product_id"],
-                    article=row["article"],
-                    name=row["name"],
-                    category=row["category_name"],
-                    subcategory=row["subcategory_name"],
-                    manufacturer=row["manufacturer_name"],
-                    image_path=row["image_path"],
-                    material=row["material"],
-                    description=row["description"],
-                    base_price=Decimal(row["price"]),
-                    total_quantity=row["total_quantity"],
-                    has_orders_previous_month=row["has_orders_previous_month"],
-                    variants=tuple(variants_by_product.get(row["product_id"], [])),
+                    product_id=row["product_id"], # type: ignore
+                    article=row["article"], # type: ignore
+                    name=row["name"], # type: ignore
+                    category=row["category_name"], # type: ignore
+                    subcategory=row["subcategory_name"], # type: ignore
+                    manufacturer=row["manufacturer_name"], # type: ignore
+                    image_path=row["image_path"], # type: ignore
+                    material=row["material"], # type: ignore
+                    description=row["description"], # type: ignore
+                    base_price=Decimal(row["price"]), # type: ignore
+                    total_quantity=row["total_quantity"], # type: ignore
+                    has_orders_previous_month=row["has_orders_previous_month"], # type: ignore
+                    variants=tuple(variants_by_product.get(row["product_id"], [])), # type: ignore
                 )
             )
         return products
@@ -111,4 +105,4 @@ class CatalogRepository:
         with self._database.cursor() as cursor:
             cursor.execute(_CATEGORIES_SQL)
             rows = cursor.fetchall()
-        return [row["category_name"] for row in rows]
+        return [row["category_name"] for row in rows] # type: ignore

@@ -1,14 +1,9 @@
-"""Подключение к PostgreSQL через psycopg 3."""
-
 from __future__ import annotations
-
 from contextlib import contextmanager
 from typing import Iterator
-
 import psycopg
 from psycopg import Cursor
 from psycopg.rows import dict_row
-
 from app.config import DbSettings
 from app.errors import DatabaseError, DatabaseUnavailableError
 
@@ -38,7 +33,7 @@ class Database:
                 user=self._settings.user,
                 password=self._settings.password,
                 connect_timeout=5,
-                row_factory=dict_row,
+                row_factory=dict_row, # type: ignore
             )
         except psycopg.Error as exc:
             raise DatabaseUnavailableError(
@@ -61,7 +56,6 @@ class Database:
         return self._connection
 
     def _handle_error(self, exc: psycopg.Error) -> DatabaseError:
-        # Разорванное соединение закрываем, чтобы следующий запрос переподключился.
         if isinstance(exc, psycopg.OperationalError):
             self.close()
             return DatabaseUnavailableError(

@@ -1,14 +1,6 @@
-"""Работа с заказами и их составом в PostgreSQL.
-
-Создание, удаление и редактирование заказа выполняются в одной транзакции,
-чтобы остатки и состав заказа всегда были согласованы.
-"""
-
 from __future__ import annotations
-
 from datetime import datetime
 from decimal import Decimal
-
 from app.db.connection import Database
 from app.errors import NotFoundError, StockError, ValidationError
 from app.models.entities import OrderDetail, OrderItem, OrderSummary
@@ -65,10 +57,10 @@ class OrderRepository:
             rows = cursor.fetchall()
         return [
             OrderSummary(
-                order_id=row["order_id"],
-                order_date=row["order_date"],
-                client_name=row["client_name"],
-                total=Decimal(row["total"]),
+                order_id=row["order_id"], # type: ignore
+                order_date=row["order_date"], # type: ignore
+                client_name=row["client_name"], # type: ignore
+                total=Decimal(row["total"]), # type: ignore
             )
             for row in rows
         ]
@@ -87,21 +79,21 @@ class OrderRepository:
 
         items = tuple(
             OrderItem(
-                order_item_id=row["order_item_id"],
-                stock_item_id=row["stock_item_id"],
-                product_id=row["product_id"],
-                product_name=row["product_name"],
-                manufacturer=row["manufacturer_name"],
-                variant_name=row["variant_name"],
-                quantity=row["quantity"],
-                unit_price=Decimal(row["unit_price"]),
+                order_item_id=row["order_item_id"], # type: ignore
+                stock_item_id=row["stock_item_id"], # type: ignore
+                product_id=row["product_id"], # type: ignore
+                product_name=row["product_name"], # type: ignore
+                manufacturer=row["manufacturer_name"], # type: ignore
+                variant_name=row["variant_name"], # type: ignore
+                quantity=row["quantity"], # type: ignore
+                unit_price=Decimal(row["unit_price"]), # type: ignore
             )
             for row in item_rows
         )
         return OrderDetail(
-            order_id=header["order_id"],
-            order_date=header["order_date"],
-            client_name=header["client_name"],
+            order_id=header["order_id"], # type: ignore
+            order_date=header["order_date"], # type: ignore
+            client_name=header["client_name"], # type: ignore
             items=items,
         )
 
@@ -122,8 +114,6 @@ class OrderRepository:
 
         with self._database.transaction() as cursor:
             stock_item_ids = [item[0] for item in items]
-            # Блокируем строки остатков, чтобы два пользователя не списали
-            # одно и то же количество одновременно.
             cursor.execute(
                 """
                 SELECT stock_item_id, quantity
@@ -133,7 +123,7 @@ class OrderRepository:
                 """,
                 (stock_item_ids,),
             )
-            stock_rows = {row["stock_item_id"]: row["quantity"] for row in cursor.fetchall()}
+            stock_rows = {row["stock_item_id"]: row["quantity"] for row in cursor.fetchall()} # type: ignore
 
             for stock_item_id, quantity, _price in items:
                 if quantity <= 0:
@@ -156,7 +146,7 @@ class OrderRepository:
                 "INSERT INTO orders (order_date, user_id) VALUES (%s, %s) RETURNING order_id",
                 (order_date, user_id),
             )
-            order_id = cursor.fetchone()["order_id"]
+            order_id = cursor.fetchone()["order_id"] # type: ignore
 
             for stock_item_id, quantity, unit_price in items:
                 cursor.execute(
@@ -192,7 +182,7 @@ class OrderRepository:
             for row in cursor.fetchall():
                 cursor.execute(
                     "UPDATE stock_items SET quantity = quantity + %s WHERE stock_item_id = %s",
-                    (row["quantity"], row["stock_item_id"]),
+                    (row["quantity"], row["stock_item_id"]), # type: ignore
                 )
 
             cursor.execute("DELETE FROM order_items WHERE order_id = %s", (order_id,))
@@ -235,11 +225,11 @@ class OrderRepository:
                 for row in rows:
                     cursor.execute(
                         "UPDATE stock_items SET quantity = quantity + %s WHERE stock_item_id = %s",
-                        (row["quantity"], row["stock_item_id"]),
+                        (row["quantity"], row["stock_item_id"]), # type: ignore
                     )
                     cursor.execute(
                         "DELETE FROM order_items WHERE order_item_id = %s",
-                        (row["order_item_id"],),
+                        (row["order_item_id"],), # type: ignore
                     )
 
             cursor.execute(
